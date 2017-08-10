@@ -4,11 +4,12 @@ import guice.ApiContext
 import org.scalatest.{MustMatchers, OptionValues, WordSpec}
 import play.api.i18n.MessagesApi
 import services.HomeService
-import v1.post.test.guice.MyModules
+import v1.post.test.guice.MyApplicationFactory
 
-class HomeServiceSpec extends WordSpec with MustMatchers with OptionValues {
+class HomeServiceSpec extends WordSpec with MyApplicationFactory with MustMatchers with OptionValues {
 
-  private val service = new HomeService(ApiContext(4), MyModules.injector.getInstance(classOf[MessagesApi]))
+  val app = fakeApplication()
+  private val service = new HomeService(ApiContext(4), app.injector.instanceOf(classOf[MessagesApi]))
 
   "doStuff" should {
     "return ok" in {

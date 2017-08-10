@@ -7,18 +7,19 @@ import org.scalatestplus.play.PlaySpec
 import play.api.i18n.MessagesApi
 import play.api.mvc.Results
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import play.api.test.Helpers.{OK, status}
+import play.api.test.Helpers.{OK, status, _}
 import services.HomeService
-import v1.post.test.guice.MyModules
+import v1.post.test.guice.MyApplicationFactory
 
-class HomeControllerSpec extends PlaySpec with Results with MockitoSugar {
+class HomeControllerSpec extends PlaySpec with MyApplicationFactory with Results with MockitoSugar {
+
+  val app = fakeApplication()
 
   "index" should {
     "be valid" in {
 
-      val messagesApi = mock[MessagesApi]
-      val homeService = MyModules.injector.getInstance(classOf[ApiFactory[HomeService]])
+      val messagesApi = app.injector.instanceOf(classOf[MessagesApi])
+      val homeService = app.injector.instanceOf(classOf[ApiFactory[HomeService]])
       val controller = new HomeController(homeService, messagesApi)
 
       val result = controller.index(3).apply(FakeRequest())
