@@ -27,7 +27,13 @@ http --verbose http://localhost:9000/222
 and get back:
 
 ```
-GET /v1/posts HTTP/1.1
+GET /222 HTTP/1.1
+```
+
+and the response body:
+
+```
+stuff done
 ```
 
 ### Testing
